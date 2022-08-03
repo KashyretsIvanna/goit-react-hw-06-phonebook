@@ -1,4 +1,3 @@
-import types from "./action-types"
 import { createAction } from "@reduxjs/toolkit"
 
 // export const setContacts=(newItem)=>{

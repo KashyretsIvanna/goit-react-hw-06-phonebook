@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import types from '../redux/action-types';
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from '../redux/phonebook-actions';
 
