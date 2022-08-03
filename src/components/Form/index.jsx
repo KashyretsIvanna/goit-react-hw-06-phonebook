@@ -75,7 +75,7 @@ const Form = ({ contactsFromRedux, setContactsToRedux }) => {
 
 const mapStateToProps = state => {
 	return {
-		contactsFromRedux: state.reducer.contacts.items,
+		contactsFromRedux: state.contacts.items,
 	};
 };
 

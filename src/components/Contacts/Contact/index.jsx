@@ -32,8 +32,8 @@ const Contact = ({
 
 const mapStateToProps = state => {
 	return {
-		contactsFromRedux: state.reducer.contacts.items,
-		filterFromRedux: state.reducer.contacts.filter,
+		contactsFromRedux: state.contacts.items,
+		filterFromRedux: state.contacts.filter,
 	};
 };
 

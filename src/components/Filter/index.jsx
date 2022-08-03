@@ -25,7 +25,7 @@ const Filter = ({ filterFromRedux, setFilterToRedux }) => {
 
 const mapStateToProps = state => {
 	return {
-		filterFromRedux: state.reducer.contacts.filter,
+		filterFromRedux: state.contacts.filter,
 	};
 };
 
