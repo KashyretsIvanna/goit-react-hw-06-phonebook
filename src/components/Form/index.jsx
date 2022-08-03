@@ -2,21 +2,27 @@ import styles from '../Form/index.module.css';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import * as actions from '../../redux/phonebook-actions';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const Form = ({ contactsFromRedux,addContact }) => {
+const Form = () => {
 	const [name, setName] = useState('');
 	const [number, setNumber] = useState('');
+	const contacts = useSelector(state => state.contacts.items);
+	const dispatch = useDispatch();
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		let bool = contactsFromRedux.some(contact => {
+		let bool = contacts.some(contact => {
 			return contact.name.toLowerCase() === name.toLowerCase();
 		});
 
 		if (!bool) {
 			let loginInputId = nanoid();
-			addContact({ id: loginInputId, name: name, number: number });
+			dispatch(
+				actions.addContacts({ id: loginInputId, name: name, number: number }),
+			);
+			// addContact({ id: loginInputId, name: name, number: number });
 			reset();
 		} else alert(name + ' is already exists');
 	};
@@ -70,17 +76,17 @@ const Form = ({ contactsFromRedux,addContact }) => {
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		contactsFromRedux: state.contacts.items,
-	};
-};
+// const mapStateToProps = state => {
+// 	return {
+// 		contactsFromRedux: state.contacts.items,
+// 	};
+// };
 
-const mapDispatchToProps = dispatch => {
-	return {
-		addContact:obj=>dispatch(actions.addContacts(obj))
-	};
-};
+// const mapDispatchToProps = dispatch => {
+// 	return {
+// 		addContact:obj=>dispatch(actions.addContacts(obj))
+// 	};
+// };
 
 // Form.propTypes = {
 // 	contactsFromRedux: PropTypes.arrayOf(
@@ -98,4 +104,4 @@ const mapDispatchToProps = dispatch => {
 // 	),
 // };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default Form;

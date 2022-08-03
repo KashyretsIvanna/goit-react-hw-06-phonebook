@@ -3,21 +3,24 @@ import Contacts from './Contacts';
 import Filter from './Filter';
 import styles from '../components/app.module.css';
 import { useEffect } from 'react';
-import { connect } from 'react-redux/es/exports';
 import * as actions from '../redux/phonebook-actions';
+import { useSelector } from 'react-redux/es/exports';
+import { useDispatch } from 'react-redux/es/exports';
 
-const App = ({ contactsFromRedux, setContacts }) => {
+const App = () => {
+	const contacts = useSelector(state => state.contacts.items);
+	const dispatch = useDispatch();
 	useEffect(() => {
-		localStorage.setItem('todos', JSON.stringify(contactsFromRedux));
-	}, [contactsFromRedux]);
+		localStorage.setItem('todos', JSON.stringify(contacts));
+	}, [contacts]);
 
 	useEffect(() => {
 		if (localStorage.getItem('todos')) {
 			const items = JSON.parse(localStorage.getItem('todos'));
 			console.log(items);
-			setContacts(items);
+			dispatch(actions.setContacts(items));
 		}
-	}, [setContacts]);
+	}, [dispatch]);
 
 	return (
 		<div className={styles.app}>
@@ -30,16 +33,5 @@ const App = ({ contactsFromRedux, setContacts }) => {
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		contactsFromRedux: state.contacts.items,
-	};
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		setContacts: cont => dispatch(actions.setContacts(cont)),
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// contactsFromRedux
+export default App;

@@ -1,16 +1,18 @@
 import styles from '../Contacts/index.module.css';
 import Contact from './Contact';
-import * as actions from '../../redux/phonebook-actions';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const Contacts = ({ contactsFromRedux, filterFromRedux }) => {
+const Contacts = () => {
+	const contacts = useSelector(state => state.contacts.items);
+	const filter = useSelector(state => state.contacts.filter);
+
 	const handleFilter = () => {
-		if (filterFromRedux) {
-			return contactsFromRedux.filter(contact =>
-				contact.name.toLowerCase().includes(filterFromRedux.toLowerCase()),
+		if (filter) {
+			return contacts.filter(contact =>
+				contact.name.toLowerCase().includes(filter.toLowerCase()),
 			);
 		} else {
-			return contactsFromRedux;
+			return contacts;
 		}
 	};
 
@@ -32,21 +34,8 @@ const Contacts = ({ contactsFromRedux, filterFromRedux }) => {
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		contactsFromRedux: state.contacts.items,
-		filterFromRedux: state.contacts.filter,
-	};
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		setContactsToRedux: obj => dispatch(actions.setContacts(obj)),
-	};
-};
-
 // Contacts.propTypes = {
 // 	onDelete: PropTypes.func.isRequired,
 // 	onFilter: PropTypes.func.isRequired,
 // };
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+export default Contacts;

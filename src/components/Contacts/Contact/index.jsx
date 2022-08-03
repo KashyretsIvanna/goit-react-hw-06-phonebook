@@ -1,16 +1,17 @@
 import styles from './index.module.css';
 import PropTypes from 'prop-types';
 import * as actions from '../../../redux/phonebook-actions';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const Contact = ({ deleteItem, id, number, name }) => {
+const Contact = ({ id, number, name }) => {
+	const dispatch = useDispatch();
 	return (
 		<li className={styles.li}>
 			{name + ': ' + number}
 			<button
 				className={styles.button}
 				onClick={() => {
-					deleteItem(id);
+					dispatch(actions.deleteContacts(id));
 				}}
 			>
 				Delete
@@ -19,17 +20,10 @@ const Contact = ({ deleteItem, id, number, name }) => {
 	);
 };
 
-const mapDispatchToProps = dispatch => {
-	return {
-		setContactsToRedux: obj => dispatch(actions.setContacts(obj)),
-		deleteItem: id => dispatch(actions.deleteContacts(id)),
-	};
-};
-
 Contact.propTypes = {
 	number: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Contact);
+export default Contact;
