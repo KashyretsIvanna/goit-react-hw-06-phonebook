@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import * as actions from '../../redux/phonebook-actions';
 import { connect } from 'react-redux';
 
-const Form = ({ contactsFromRedux, setContactsToRedux }) => {
+const Form = ({ contactsFromRedux,addContact }) => {
 	const [name, setName] = useState('');
 	const [number, setNumber] = useState('');
 
@@ -16,10 +16,7 @@ const Form = ({ contactsFromRedux, setContactsToRedux }) => {
 
 		if (!bool) {
 			let loginInputId = nanoid();
-			setContactsToRedux([
-				...contactsFromRedux,
-				{ id: loginInputId, name: name, number: number },
-			]);
+			addContact({ id: loginInputId, name: name, number: number });
 			reset();
 		} else alert(name + ' is already exists');
 	};
@@ -81,7 +78,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		setContactsToRedux: obj => dispatch(actions.setContacts(obj)),
+		addContact:obj=>dispatch(actions.addContacts(obj))
 	};
 };
 

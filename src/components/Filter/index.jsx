@@ -18,10 +18,6 @@ const Filter = ({ filterFromRedux, setFilterToRedux }) => {
 		</Fragment>
 	);
 };
-// Filter.propTypes = {
-// 	onFilter: PropTypes.func.isRequired,
-// 	filter: PropTypes.string.isRequired,
-// };
 
 const mapStateToProps = state => {
 	return {

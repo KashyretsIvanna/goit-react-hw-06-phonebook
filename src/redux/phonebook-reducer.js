@@ -9,35 +9,18 @@ const items = [
 	{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-// const itemsReducer = (state = items, action) => {
-// 	switch (action.type) {
-// 		case types.SETCONTACTS:
-// 			return action.payload;
+const itemsLoc = JSON.parse(localStorage.getItem('todos'));
 
-// 		default:
-// 			return state;
-// 	}
-// };
-
-const itemsReducer = createReducer(items, {
+const itemsReducer = createReducer(itemsLoc ? itemsLoc : items, {
 	[actions.setContacts.type]: (_, act) => act.payload,
-    // [actions.filterContacts.type]: (_, act) => act.payload,
-    // [actions.deleteContacts.type]: (_, act) => act.payload,
+	[actions.deleteContacts.type]: (state, act) =>
+		state.filter(el => el.id !== act.payload),
+	[actions.addContacts.type]: (state, act) => [...state, act.payload],
 });
 
-const filterReducer = createReducer("",{
+const filterReducer = createReducer('', {
 	[actions.setFilter.type]: (_, act) => act.payload,
 });
-
-// const filterReducer = (state = '', action) => {
-// 	switch (action.type) {
-// 		case types.FILTER:
-// 			return action.payload;
-
-// 		default:
-// 			return state;
-// 	}
-// };
 
 const contactsReducer = combineReducers({
 	items: itemsReducer,

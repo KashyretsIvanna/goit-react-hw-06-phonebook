@@ -3,10 +3,7 @@ import Contact from './Contact';
 import * as actions from '../../redux/phonebook-actions';
 import { connect } from 'react-redux';
 
-const Contacts = ({
-	contactsFromRedux,
-	filterFromRedux,
-}) => {
+const Contacts = ({ contactsFromRedux, filterFromRedux }) => {
 	const handleFilter = () => {
 		if (filterFromRedux) {
 			return contactsFromRedux.filter(contact =>
@@ -23,7 +20,6 @@ const Contacts = ({
 				{handleFilter().map(contact => {
 					return (
 						<Contact
-							// onDelete={handleDelete}
 							key={contact.id}
 							number={contact.number}
 							name={contact.name}

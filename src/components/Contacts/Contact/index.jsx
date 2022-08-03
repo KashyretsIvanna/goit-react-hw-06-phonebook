@@ -3,25 +3,14 @@ import PropTypes from 'prop-types';
 import * as actions from '../../../redux/phonebook-actions';
 import { connect } from 'react-redux';
 
-const Contact = ({
-	contactsFromRedux,
-	setContactsToRedux,
-	id,
-	number,
-	name,
-}) => {
-	
-	const handleDelete = itemId => {
-		setContactsToRedux(contactsFromRedux.filter(el => el.id !== itemId));
-	};
-
+const Contact = ({ deleteItem, id, number, name }) => {
 	return (
 		<li className={styles.li}>
 			{name + ': ' + number}
 			<button
 				className={styles.button}
 				onClick={() => {
-					handleDelete(id);
+					deleteItem(id);
 				}}
 			>
 				Delete
@@ -30,16 +19,10 @@ const Contact = ({
 	);
 };
 
-const mapStateToProps = state => {
-	return {
-		contactsFromRedux: state.contacts.items,
-		filterFromRedux: state.contacts.filter,
-	};
-};
-
 const mapDispatchToProps = dispatch => {
 	return {
 		setContactsToRedux: obj => dispatch(actions.setContacts(obj)),
+		deleteItem: id => dispatch(actions.deleteContacts(id)),
 	};
 };
 
@@ -49,5 +32,4 @@ Contact.propTypes = {
 	id: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Contact);
-
+export default connect(null, mapDispatchToProps)(Contact);

@@ -1,17 +1,6 @@
-import { createAction } from "@reduxjs/toolkit"
+import { createAction } from '@reduxjs/toolkit';
 
-// export const setContacts=(newItem)=>{
-//     return({
-//         type:types.SETCONTACTS,
-//         payload:newItem
-//     })
-// }
-export const setContacts=createAction("phonebook/setcontacts")
-export const setFilter=createAction("phonebook/setfilter")
-
-// export const setFilter=value=>{
-//     return({
-//         type:types.FILTER,
-//         payload:value
-//     })
-// }
+export const setContacts = createAction('phonebook/setcontacts');
+export const setFilter = createAction('phonebook/setfilter');
+export const deleteContacts = createAction('phonebook/deletecontact');
+export const addContacts = createAction('phonebook/addcontacts');
