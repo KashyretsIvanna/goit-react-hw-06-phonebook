@@ -17,7 +17,7 @@ const App = ({ contactsFromRedux, setContacts }) => {
 			console.log(items);
 			setContacts(items);
 		}
-	}, []);
+	}, [setContacts]);
 
 	return (
 		<div className={styles.app}>
