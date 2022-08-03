@@ -10,6 +10,6 @@ export const setContacts=(newItem)=>{
 export const setFilter=value=>{
     return({
         type:types.FILTER,
-        payload:text
+        payload:value
     })
 }

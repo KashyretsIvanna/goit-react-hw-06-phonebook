@@ -1,15 +1,29 @@
 import styles from '../Contacts/index.module.css';
 import Contact from './Contact';
-import PropTypes from 'prop-types';
+import * as actions from '../../redux/phonebook-actions';
+import { connect } from 'react-redux';
 
-const Contacts = props => {
+const Contacts = ({
+	contactsFromRedux,
+	filterFromRedux,
+}) => {
+	const handleFilter = () => {
+		if (filterFromRedux) {
+			return contactsFromRedux.filter(contact =>
+				contact.name.toLowerCase().includes(filterFromRedux.toLowerCase()),
+			);
+		} else {
+			return contactsFromRedux;
+		}
+	};
+
 	return (
 		<div>
 			<ul className={styles.contacts}>
-				{props.onFilter().map(contact => {
+				{handleFilter().map(contact => {
 					return (
 						<Contact
-							onDelete={props.onDelete}
+							// onDelete={handleDelete}
 							key={contact.id}
 							number={contact.number}
 							name={contact.name}
@@ -21,8 +35,22 @@ const Contacts = props => {
 		</div>
 	);
 };
-Contacts.propTypes = {
-	onDelete: PropTypes.func.isRequired,
-	onFilter: PropTypes.func.isRequired,
+
+const mapStateToProps = state => {
+	return {
+		contactsFromRedux: state.reducer.contacts.items,
+		filterFromRedux: state.reducer.contacts.filter,
+	};
 };
-export default Contacts;
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setContactsToRedux: obj => dispatch(actions.setContacts(obj)),
+	};
+};
+
+// Contacts.propTypes = {
+// 	onDelete: PropTypes.func.isRequired,
+// 	onFilter: PropTypes.func.isRequired,
+// };
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

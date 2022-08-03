@@ -1,15 +1,27 @@
 import styles from './index.module.css';
 import PropTypes from 'prop-types';
+import * as actions from '../../../redux/phonebook-actions';
+import { connect } from 'react-redux';
 
-const Contact = props => {
-	const { id, number, name, onDelete } = props;
+const Contact = ({
+	contactsFromRedux,
+	setContactsToRedux,
+	id,
+	number,
+	name,
+}) => {
+	
+	const handleDelete = itemId => {
+		setContactsToRedux(contactsFromRedux.filter(el => el.id !== itemId));
+	};
+
 	return (
 		<li className={styles.li}>
 			{name + ': ' + number}
 			<button
 				className={styles.button}
 				onClick={() => {
-					onDelete(id);
+					handleDelete(id);
 				}}
 			>
 				Delete
@@ -17,11 +29,25 @@ const Contact = props => {
 		</li>
 	);
 };
+
+const mapStateToProps = state => {
+	return {
+		contactsFromRedux: state.reducer.contacts.items,
+		filterFromRedux: state.reducer.contacts.filter,
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setContactsToRedux: obj => dispatch(actions.setContacts(obj)),
+	};
+};
+
 Contact.propTypes = {
-	onDelete: PropTypes.func.isRequired,
 	number: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 };
 
-export default Contact;
+export default connect(mapStateToProps, mapDispatchToProps)(Contact);
+

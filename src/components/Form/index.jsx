@@ -1,19 +1,25 @@
 import styles from '../Form/index.module.css';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
+import * as actions from '../../redux/phonebook-actions';
+import { connect } from 'react-redux';
 
-const Form = props => {
+const Form = ({ contactsFromRedux, setContactsToRedux }) => {
 	const [name, setName] = useState('');
 	const [number, setNumber] = useState('');
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		let bool = props.contacts.some(contact => {
+		let bool = contactsFromRedux.some(contact => {
 			return contact.name.toLowerCase() === name.toLowerCase();
 		});
 
 		if (!bool) {
-			props.onSubmit(name, number, reset);
+			let loginInputId = nanoid();
+			setContactsToRedux([
+				...contactsFromRedux,
+				{ id: loginInputId, name: name, number: number },
+			]);
 			reset();
 		} else alert(name + ' is already exists');
 	};
@@ -67,12 +73,32 @@ const Form = props => {
 	);
 };
 
-Form.propTypes = {
-	contacts: PropTypes.arrayOf(
-		PropTypes.shape({
-			name: PropTypes.string.isRequired,
-		}),
-	),
-	onSubmit: PropTypes.func.isRequired,
+const mapStateToProps = state => {
+	return {
+		contactsFromRedux: state.reducer.contacts.items,
+	};
 };
-export default Form;
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setContactsToRedux: obj => dispatch(actions.setContacts(obj)),
+	};
+};
+
+// Form.propTypes = {
+// 	contactsFromRedux: PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			name: PropTypes.string.isRequired,
+// 			number:PropTypes.string.isRequired,
+// 		}),
+// 	),
+// 	setContactsToRedux:PropTypes.arrayOf(
+// 		PropTypes.shape({
+// 			name: PropTypes.string.isRequired,
+// 			number:PropTypes.string.isRequired,
+
+// 		}),
+// 	),
+// };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

@@ -1,27 +1,38 @@
 import { Fragment } from 'react';
 import styles from '../Filter/index.module.css';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/phonebook-actions';
 
-const Filter = props => {
-	const { filter } = props.filter;
+const Filter = ({ filterFromRedux, setFilterToRedux }) => {
 	return (
 		<Fragment>
 			<p className={styles.p}>Find contacts by name</p>
 			<input
 				className={styles.input}
 				type="text"
-				value={filter}
+				value={filterFromRedux}
 				onChange={e => {
-					props.onFilter(e);
+					setFilterToRedux(e.target.value);
 				}}
 			/>
 		</Fragment>
 	);
 };
+// Filter.propTypes = {
+// 	onFilter: PropTypes.func.isRequired,
+// 	filter: PropTypes.string.isRequired,
+// };
 
-Filter.propTypes = {
-	onFilter: PropTypes.func.isRequired,
-	filter: PropTypes.string.isRequired,
+const mapStateToProps = state => {
+	return {
+		filterFromRedux: state.reducer.contacts.filter,
+	};
 };
 
-export default Filter;
+const mapDispatchToProps = dispatch => {
+	return {
+		setFilterToRedux: text => dispatch(actions.setFilter(text)),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
