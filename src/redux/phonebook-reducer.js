@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from '../redux/phonebook-actions';
+import storage from 'redux-persist/lib/storage';
+import persistReducer from 'redux-persist/es/persistReducer';
 
 const items = [
 	{ id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -9,7 +11,7 @@ const items = [
 	{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-const itemsReducer = createReducer( items, {
+const itemsReducer = createReducer(items, {
 	[actions.setContacts.type]: (_, act) => act.payload,
 	[actions.deleteContacts.type]: (state, act) =>
 		state.filter(el => el.id !== act.payload),
@@ -20,9 +22,20 @@ const filterReducer = createReducer('', {
 	[actions.setFilter.type]: (_, act) => act.payload,
 });
 
+const rootPersistConfig = {
+	key: 'root',
+	storage: storage,
+	blacklist: ['filter'],
+};
+
 const contactsReducer = combineReducers({
 	items: itemsReducer,
 	filter: filterReducer,
 });
 
-export default contactsReducer;
+const persistedContsctsReducer = persistReducer(
+	rootPersistConfig,
+	contactsReducer,
+);
+
+export default persistedContsctsReducer;
