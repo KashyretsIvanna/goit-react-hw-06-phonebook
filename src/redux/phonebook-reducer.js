@@ -9,9 +9,7 @@ const items = [
 	{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-const itemsLoc = JSON.parse(localStorage.getItem('todos'));
-
-const itemsReducer = createReducer(itemsLoc ? itemsLoc : items, {
+const itemsReducer = createReducer( items, {
 	[actions.setContacts.type]: (_, act) => act.payload,
 	[actions.deleteContacts.type]: (state, act) =>
 		state.filter(el => el.id !== act.payload),

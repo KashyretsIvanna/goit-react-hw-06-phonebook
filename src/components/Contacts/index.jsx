@@ -7,13 +7,9 @@ const Contacts = () => {
 	const filter = useSelector(state => state.contacts.filter);
 
 	const handleFilter = () => {
-		if (filter) {
-			return contacts.filter(contact =>
-				contact.name.toLowerCase().includes(filter.toLowerCase()),
-			);
-		} else {
-			return contacts;
-		}
+		return contacts.filter(contact =>
+			contact.name.toLowerCase().includes(filter.toLowerCase()),
+		);
 	};
 
 	return (
